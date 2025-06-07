@@ -68,6 +68,49 @@
     </section>
   </main>
 
+  <section class="comentarios">
+  <h2>Comentarios</h2>
+  <form id="formComentario">
+    <textarea id="comentarioTexto" placeholder="Escribe tu comentario aquí..." required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+  <ul id="listaComentarios"></ul>
+</section>
+
+<script>
+  const form = document.getElementById("formComentario");
+  const textarea = document.getElementById("comentarioTexto");
+  const lista = document.getElementById("listaComentarios");
+
+  // Cargar comentarios guardados
+  window.addEventListener("DOMContentLoaded", () => {
+    const comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+    comentarios.forEach(texto => agregarComentario(texto));
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const texto = textarea.value.trim();
+    if (texto !== "") {
+      agregarComentario(texto);
+      guardarComentario(texto);
+      textarea.value = "";
+    }
+  });
+
+  function agregarComentario(texto) {
+    const li = document.createElement("li");
+    li.textContent = texto;
+    lista.appendChild(li);
+  }
+
+  function guardarComentario(texto) {
+    const comentarios = JSON.parse(localStorage.getItem("comentarios")) || [];
+    comentarios.push(texto);
+    localStorage.setItem("comentarios", JSON.stringify(comentarios));
+  }
+</script>
+
 
 </body>
 </html>
